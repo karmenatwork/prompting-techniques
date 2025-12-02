@@ -1,4 +1,5 @@
 from openai import OpenAI
+from enum import Enum
 from IPython.display import display, Markdown
 import os
 
@@ -22,14 +23,19 @@ def display_responses(*args):
     display(Markdown(markdown_string))
 
 
+class OpenAIModels(str, Enum):
+    GPT_4O_MINI = "gpt-4o-mini"
+    GPT_41_MINI = "gpt-4.1-mini"
+    GPT_41_NANO = "gpt-4.1-nano"
 
-MODEL = "gpt-4o-mini"
+
+MODEL = OpenAIModels.GPT_4O_MINI
 
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
 
-def get_completion(system_prompt, user_prompt, model=MODEL):
+def get_completion(user_prompt, system_prompt ="You are a helpful assistant", model=MODEL):
     """"
     Get a completion from the OpenAI API using the specified system and user prompts.
     
